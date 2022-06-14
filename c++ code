@@ -1,0 +1,83 @@
+//memoization  of longest common subsequence 
+
+/*class Solution {
+public:
+          
+int solve(vector<vector<int>>&dp ,string &s1,string &s2,int i1,int i2){
+    
+    //base case
+    if(i1<0 || i2<0)return 0;
+    
+    // memo
+    if(dp[i1][i2]!=-1)return dp[i1][i2];
+
+
+// 1+reduce both
+    if(s1[i1]==s2[i2]){
+         return dp[i1][i2]=1+solve(dp,s1,s2,i1-1,i2-1);
+    }
+
+  // stable s1 and shrink s2 and stable s2 and shrink s2 ans take max of both 
+   else{
+    return dp[i1][i2]= max(solve(dp,s1,s2,i1-1,i2),solve(dp,s1,s2,i1,i2-1)); 
+   }   
+}  
+   
+
+int longestCommonSubsequence(string s1, string s2) {
+       
+        int n=s1.size();
+        int m=s2.size();
+       vector<vector<int>>dp(n,vector<int>(m+1,-1));
+
+     return solve(dp,s1,s2,n-1,m-1);  
+        
+        
+    }
+       
+};*/
+
+
+
+
+
+//tabulation 
+
+class Solution {
+public:
+          
+
+int longestCommonSubsequence(string s1, string s2) {
+       
+        int n=s1.size();
+        int m=s2.size();
+       vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+
+    
+   //base case shift index means index 0 is means i=-1
+// so base case is
+    for(int j=0;j<=m;j++)dp[0][j]=0;
+    for(int i=0;i<=n;i++)dp[i][0]=0;
+      
+    
+ for(int i=1;i<=n;i++){
+     for(int j=1;j<=m;j++){
+       
+         if(s1[i-1]==s2[j-1])
+      dp[i][j]=1+dp[i-1][j-1];
+         
+   
+       else dp[i][j]=max(dp[i-1][j] ,dp[i][j-1]);
+         
+     }
+ }
+     
+    
+    
+    
+    return dp[n][m];
+    }
+       
+};
+
+
